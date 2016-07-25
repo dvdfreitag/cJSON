@@ -49,7 +49,7 @@ typedef struct cJSON {
 
 	char *valuestring;			/* The item's string, if type==cJSON_String */
 	int valueint;				/* The item's number, if type==cJSON_Number */
-	double valuedouble;			/* The item's number, if type==cJSON_Number */
+	float valuefloat;			/* The item's number, if type==cJSON_Number */
 
 	char *string;				/* The item's name string, if this item is the child of, or is in the list of subitems of an object. */
 } cJSON;
@@ -89,7 +89,7 @@ extern cJSON *cJSON_CreateNull(void);
 extern cJSON *cJSON_CreateTrue(void);
 extern cJSON *cJSON_CreateFalse(void);
 extern cJSON *cJSON_CreateBool(int b);
-extern cJSON *cJSON_CreateNumber(double num);
+extern cJSON *cJSON_CreateNumber(float num);
 extern cJSON *cJSON_CreateString(const char *string);
 extern cJSON *cJSON_CreateArray(void);
 extern cJSON *cJSON_CreateObject(void);
@@ -97,7 +97,6 @@ extern cJSON *cJSON_CreateObject(void);
 /* These utilities create an Array of count items. */
 extern cJSON *cJSON_CreateIntArray(const int *numbers,int count);
 extern cJSON *cJSON_CreateFloatArray(const float *numbers,int count);
-extern cJSON *cJSON_CreateDoubleArray(const double *numbers,int count);
 extern cJSON *cJSON_CreateStringArray(const char **strings,int count);
 
 /* Append item to the specified array/object. */
@@ -139,9 +138,9 @@ extern void cJSON_Minify(char *json);
 #define cJSON_AddNumberToObject(object,name,n)	cJSON_AddItemToObject(object, name, cJSON_CreateNumber(n))
 #define cJSON_AddStringToObject(object,name,s)	cJSON_AddItemToObject(object, name, cJSON_CreateString(s))
 
-/* When assigning an integer value, it needs to be propagated to valuedouble too. */
-#define cJSON_SetIntValue(object,val)			((object)?(object)->valueint=(object)->valuedouble=(val):(val))
-#define cJSON_SetNumberValue(object,val)		((object)?(object)->valueint=(object)->valuedouble=(val):(val))
+/* When assigning an integer value, it needs to be propagated to valuefloat too. */
+#define cJSON_SetIntValue(object,val)			((object)?(object)->valueint=(object)->valuefloat=(val):(val))
+#define cJSON_SetNumberValue(object,val)		((object)?(object)->valueint=(object)->valuefloat=(val):(val))
 
 /* Macro for iterating over an array */
 #define cJSON_ArrayForEach(pos, head)			for(pos = (head)->child; pos != NULL; pos = pos->next)
