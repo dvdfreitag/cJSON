@@ -11,7 +11,7 @@ INSTALL_LIBRARY_PATH = $(DESTDIR)$(PREFIX)/$(LIBRARY_PATH)
 
 INSTALL ?= cp -a
 
-R_CFLAGS = -fpic $(CFLAGS) -Wall -Werror -Wstrict-prototypes -Wwrite-strings -D_POSIX_C_SOURCE=200112L
+R_CFLAGS = -Wall -Werror -Wstrict-prototypes -Wwrite-strings -D_POSIX_C_SOURCE=200112L
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo false')
 
@@ -31,7 +31,7 @@ endif
 ## static lib
 STLIBNAME = $(LIBNAME).a
 
-.PHONY: all clean install
+.PHONY: $(STLIBNAME)
 
 all: $(DYLIBNAME) $(STLIBNAME) $(TESTS)
 
@@ -44,7 +44,7 @@ $(STLIBNAME): $(OBJ)
 $(OBJ): cJSON.c cJSON.h 
 
 .c.o:
-		$(CC) -ansi -pedantic -c $(R_CFLAGS) $<
+		$(CC) -c $(R_CFLAGS) $<
 
 $(TESTS): cJSON.c cJSON.h test.c
 		$(CC)  cJSON.c test.c -o test -lm -I.
