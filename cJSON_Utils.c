@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "cJSON_Utils.h"
 
 static int cJSONUtils_strcasecmp(const char *s1,const char *s2)
@@ -117,7 +118,7 @@ static int cJSONUtils_Compare(cJSON *a,cJSON *b)
 	if (a->type!=b->type)	return -1;	/* mismatched type. */
 	switch (a->type)
 	{
-	case cJSON_Number:	return (a->valueint!=b->valueint || a->valuedouble!=b->valuedouble)?-2:0;	/* numeric mismatch. */
+	case cJSON_Number:	return (a->valueint!=b->valueint || a->valuefloat!=b->valuefloat)?-2:0;	/* numeric mismatch. */
 	case cJSON_String:	return (strcmp(a->valuestring,b->valuestring)!=0)?-3:0;						/* string mismatch. */
 	case cJSON_Array:	for (a=a->child,b=b->child;a && b;a=a->next,b=b->next)	{int err=cJSONUtils_Compare(a,b);if (err) return err;}
 						return (a || b)?-4:0;	/* array size mismatch. */
@@ -244,7 +245,7 @@ static void cJSONUtils_CompareToPatch(cJSON *patches,const char *path,cJSON *fro
 	switch (from->type)
 	{
 	case cJSON_Number:	
-		if (from->valueint!=to->valueint || from->valuedouble!=to->valuedouble)
+		if (from->valueint!=to->valueint || from->valuefloat!=to->valuefloat)
 			cJSONUtils_GeneratePatch(patches,"replace",path,0,to);
 		return;
 						
